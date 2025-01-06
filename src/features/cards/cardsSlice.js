@@ -12,6 +12,7 @@ const cardsSlice = createSlice({
     }
   }
 })
+//why does solution only extract id - const {id} = action.payload
 
 export const selectCard = (id) = (state) => state.cards.cards
 export const { addCards } = cardsSlice.action
