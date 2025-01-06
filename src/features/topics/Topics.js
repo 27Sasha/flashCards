@@ -30,5 +30,7 @@ const topicsSlice= createSlice({
   }
 })
 export const selectTopics = (state) => state.topics.topics
+//why is it state.topics.topics, also what does the line above mean?
+
 export const {addTopic}= topicsSlice.actions
 export default topicsSlice.reducer
