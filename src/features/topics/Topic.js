@@ -1,31 +1,23 @@
-import NewTopicForm from "../../components/NewTopicForm";
-import { Link, useParams } from "react-router-dom";
-import ROUTES from "../../app/routes";
-import { useSelector } from 'react-redux';
-import { selectTopics } from './topicsSlice';
-import { selectQuizzes } from '../quizzes/quizzesSlice';
+import { createSlice } from '@reduxjs/toolkit'
 
-export default function Topic() {
-  const topics = useSelector(selectTopics);
-  const quizzes = useSelector(selectQuizzes); // replace this with a call to your selector to select all the quizzes in state
-  let { topicId } = useParams();
-  const topic = topics[topicId];
-  const quizzesForTopic = topic.quizIds.map((quizId) => quizzes[quizId]);
+const quizzesSlice= createSlice({
+  name:'quizzes',
+  initialState: {
+    quizzes:{}
+  },
+  reducers:{
+    addQuiz: (state,action) =>{
+      const {id, name, topicId, cardIds} = action.payload
+      state.quizzes[id] = {
+        id,
+        name,
+        topicId,
+        cardIds
+      }
+    }
+  }
+})
 
-  return (
-    <section>
-      <img src={topic.icon} alt="" className="topic-icon" />
-      <h1>Topic: {topic.name}</h1>
-      <ul className="quizzes-list">
-        {quizzesForTopic.map((quiz) => (
-          <li className="quiz" key={quiz.id}>
-            <Link to={ROUTES.quizRoute(quiz.id)}>{quiz.name}</Link>
-          </li>
-        ))}
-      </ul>
-      <Link to="/quizzes/new" className="button center">
-        Create a New Quiz
-      </Link>
-    </section>
-  );
-}
+export const selectQuizz = (state) = state.quizzes.quizzes
+export const {addQuiz } = quizzesSlice.actions
+export default quizzesSlice.reducers
